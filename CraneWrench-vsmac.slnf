@@ -1,0 +1,21 @@
+{
+  "solution": {
+    "path": "CraneWrench.sln",
+    "projects": [
+		"CraneWrench.Shared\\CraneWrench.Shared.shproj",
+
+		"CraneWrench.Droid\\CraneWrench.Droid.csproj",
+
+		"CraneWrench.iOS\\CraneWrench.iOS.csproj",
+
+
+		"CraneWrench.Wasm\\CraneWrench.Wasm.csproj",
+
+		"CraneWrench.macOS\\CraneWrench.macOS.csproj",
+
+		"CraneWrench.Skia.Gtk\\CraneWrench.Skia.Gtk.csproj",
+
+		"CraneWrench.Skia.Linux.FrameBuffer\\CraneWrench.Skia.Linux.FrameBuffer.csproj",
+    ]
+  }
+}
