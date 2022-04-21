@@ -28,5 +28,10 @@
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>ATSApplicationFontsPath</key>
 	<string>Fonts/uno-fluentui-assets.ttf</string>
+
+	<!--Description of the Bluetooth request message-->
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>NO BLUETOOTH?  NO WORK!</string>
+
 </dict>
 </plist>

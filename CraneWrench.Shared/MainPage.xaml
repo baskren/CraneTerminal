@@ -8,7 +8,109 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Content>
     <Grid>
-      <TextBlock Text="Hello, world!" Margin="20" FontSize="30" />
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="Row_Title" Height="80"/>
+            <RowDefinition x:Name="Row_Connection" Height="auto"/>
+            <RowDefinition x:Name="Row_Input" Height="50"/>
+            <RowDefinition x:Name="Row_Session" Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.Children>
+            <TextBlock Text="Crane Bluetooth Wrench Terminal" Margin="10" FontSize="30" />
+            <TextBlock x:Name="_bleState" Margin="10" FontSize="30" Foreground="Red" HorizontalAlignment="Right"/>
+            <Rectangle Fill="Gray" Margin="10,0" VerticalAlignment="Bottom"/>
+            <Grid
+                Margin="10,3"
+                Grid.Row="1"
+                x:Name="Grid_Connection"
+                >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Grid.Children>
+                    <TextBlock Text="Bluetooth Device:" Margin="0,3"/>
+                    <Button
+                        x:Name="_scanButton"
+                        Grid.Row="1"
+                        IsEnabled="False"
+                        Content="SCAN" />
+                    <ComboBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Name="_deviceComboBox"/>
+                    <Button
+                        x:Name="_connectButton"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        IsEnabled="False"
+                        HorizontalAlignment="Right"
+                        Content="CONNECT" />
+                </Grid.Children>
+            </Grid>
+            <Rectangle Fill="Gray" Margin="10,0" Grid.Row="1" VerticalAlignment="Bottom"/>
+            <Grid
+                Margin="10,3"
+                Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Grid.Children>
+                    <TextBox
+                        x:Name="_inputTextBox"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        />
+                    <Button
+                        x:Name="_sendButton"
+                        Content="SEND"
+                        Grid.Column="1"
+                        IsEnabled="False"
+                        HorizontalAlignment="Right"
+                        />
+                </Grid.Children>
+            </Grid>
+            <Rectangle Fill="Gray" Margin="10,0" Grid.Row="2" VerticalAlignment="Bottom"/>
+            <Grid
+                x:Name="_dataGrid"
+                Margin="10,3"
+                Grid.Row="3"
+                >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.Children>
+                    <ScrollViewer>
+                        <ScrollViewer.Content>
+                            <TextBlock x:Name="_terminalTextBlock"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"/>
+                        </ScrollViewer.Content>
+                    </ScrollViewer>
+                    <ScrollViewer
+                        Grid.Column="1"
+                        >
+                        <ScrollViewer.Content>
+                            <TextBlock x:Name="_dataTextBlock"
+                                       Grid.ColumnSpan="2"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"/>
+                        </ScrollViewer.Content>
+                    </ScrollViewer>
+                </Grid.Children>
+            </Grid>
+        </Grid.Children>
     </Grid>
+
+    </Page.Content>
 </Page>
