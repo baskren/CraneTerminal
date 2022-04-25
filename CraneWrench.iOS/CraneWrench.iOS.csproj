@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProjectGuid>5CF2BF2C-1C62-4B45-9EE2-93F71C3203BD</ProjectGuid>
+    <ProjectGuid>{5CF2BF2C-1C62-4B45-9EE2-93F71C3203BD}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>CraneWrench</RootNamespace>
@@ -122,7 +122,7 @@
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.2.6" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Uno.Extensions.Logging.OSLog " Version="1.0.1" />
-    <PackageReference Include="P42.Uno.Controls" Version="0.1.0"/>
+    <PackageReference Include="P42.Uno.Controls" Version="0.1.0" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Contents.json">
@@ -175,10 +175,18 @@
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Media" Visible="false" />
-    <Folder Include="Media\AppIcons" Visible="false" />
-    <Folder Include="Media\LaunchImages" Visible="false" />
+    <ProjectReference Include="..\xamarin-bluetooth-le\Source\Plugin.BLE.Abstractions\Plugin.BLE.Abstractions.csproj">
+      <Project>{36ca29bc-d1b7-470e-826c-ee573b9b3305}</Project>
+      <Name>Plugin.BLE.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\xamarin-bluetooth-le\Source\Plugin.BLE.iOS\Plugin.BLE.iOS.csproj">
+      <Project>{00f27efe-b8a3-4fd3-bc1f-1179fa7d91b9}</Project>
+      <Name>Plugin.BLE.iOS</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\CraneWrench.Shared\CraneWrench.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

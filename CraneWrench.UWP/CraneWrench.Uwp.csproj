@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <ItemGroup>
@@ -15,12 +15,12 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
     <PackageReference Include="Uno.Core.Extensions.Logging.Singleton" Version="4.0.1" />
-    <PackageReference Include="P42.Uno.Controls" Version="0.1.0"/>
+    <PackageReference Include="P42.Uno.Controls" Version="0.1.0" />
   </ItemGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>650F2B66-0255-451F-8833-F07B763EAC6F</ProjectGuid>
+    <ProjectGuid>{650F2B66-0255-451F-8833-F07B763EAC6F}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CraneWrench</RootNamespace>
@@ -129,6 +129,14 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\xamarin-bluetooth-le\Source\Plugin.BLE.Abstractions\Plugin.BLE.Abstractions.csproj">
+      <Project>{36ca29bc-d1b7-470e-826c-ee573b9b3305}</Project>
+      <Name>Plugin.BLE.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\xamarin-bluetooth-le\Source\Plugin.BLE.UWP\Plugin.BLE.UWP.csproj">
+      <Project>{ccd85512-a2d7-4076-b31d-7a24829058af}</Project>
+      <Name>Plugin.BLE.UWP</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

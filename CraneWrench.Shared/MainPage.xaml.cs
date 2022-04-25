@@ -60,16 +60,19 @@ namespace CraneWrench
                 if (bytes != null && bytes.Length > 0)
                 {
                     var text = Encoding.ASCII.GetString(bytes);
-                    _terminalTextBlock.Text += text + "\n";
+                    P42.Utils.Uno.MainThread.BeginInvokeOnMainThread(() =>
+                    _terminalTextBlock.Text += text + "\n");
                 }
                 else
                 {
-                    _terminalTextBlock.Text += "{EMPTY RESPONSE}" + "\n";
+                    P42.Utils.Uno.MainThread.BeginInvokeOnMainThread(() =>
+                    _terminalTextBlock.Text += "{EMPTY RESPONSE}" + "\n");
                 }
             }
             catch (Exception ex)
             {
-                _bleState.Text = "Could not READ";
+                P42.Utils.Uno.MainThread.BeginInvokeOnMainThread(() =>
+                    _bleState.Text = "Could not READ");
                 System.Diagnostics.Debug.WriteLine($"MainPage.OnConnectButton_Click: COULD NOT SEND [{ex.Message}]");
 
             }
@@ -121,7 +124,7 @@ namespace CraneWrench
         private void OnAdapter_DeviceDiscovered(object sender, Plugin.BLE.Abstractions.EventArgs.DeviceEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(e.Device.Name))
-                DeviceList.Add(e.Device);
+                P42.Utils.Uno.MainThread.BeginInvokeOnMainThread(() => DeviceList.Add(e.Device));
         }
 
         async void OnDeviceComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -194,6 +197,7 @@ namespace CraneWrench
 
             try
             {
+                Adapter.ScanMode = ScanMode.LowLatency;
                 await Adapter.StartScanningForDevicesAsync();
             }
             catch (Exception ex)
@@ -210,6 +214,7 @@ namespace CraneWrench
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             _bleState.Text = BLE.State.ToString();
+            _scanButton.IsEnabled = BLE.State == BluetoothState.On;
         }
 
         bool alive;

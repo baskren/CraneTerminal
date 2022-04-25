@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProjectGuid>52BFF659-BB94-42AB-BEBB-CA10596F1ACD</ProjectGuid>
+    <ProjectGuid>{52BFF659-BB94-42AB-BEBB-CA10596F1ACD}</ProjectGuid>
     <ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>CraneWrench.macOS</RootNamespace>
@@ -74,7 +74,7 @@
     <PackageReference Include="Uno.UI" Version="4.2.6" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="4.2.6" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.2.6" />
-    <PackageReference Include="P42.Uno.Controls" Version="0.1.0"/>
+    <PackageReference Include="P42.Uno.Controls" Version="0.1.0" />
   </ItemGroup>
   <Import Project="..\CraneWrench.Shared\CraneWrench.Shared.projitems" Label="Shared" />
   <ItemGroup>
@@ -93,11 +93,7 @@
     <ImageAsset Include="Assets.xcassets\unologo.imageset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\unologo.imageset\unoplatform.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="Resources\Fonts\" />
-    <Folder Include="Assets.xcassets\unologo.imageset\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
@@ -110,6 +106,16 @@
     <BundleResource Include="Resources\Fonts\uno-fluentui-assets.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\xamarin-bluetooth-le\Source\Plugin.BLE.Abstractions\Plugin.BLE.Abstractions.csproj">
+      <Project>{36ca29bc-d1b7-470e-826c-ee573b9b3305}</Project>
+      <Name>Plugin.BLE.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\xamarin-bluetooth-le\Source\Plugin.BLE.macOS\Plugin.BLE.macOS.csproj">
+      <Project>{239ad7ce-149f-4465-9baf-7d60373be5cb}</Project>
+      <Name>Plugin.BLE.macOS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <Target Name="VS16Mac_RemoveSystemMemory" BeforeTargets="ResolveAssemblyReferences">
