@@ -45,12 +45,16 @@ namespace CraneWrench
             _scanButton.Click += OnScanButton_Click;
             _connectButton.Click += OnConnectButton_Click;
             _sendButton.Click += OnSendButton_Click;
+            _comCheckButton.Click += OnComCheckButton_Click;
             Adapter.DeviceDiscovered += OnAdapter_DeviceDiscovered;
             Adapter.ScanTimeout = 5000;
             _deviceComboBox.ItemsSource = DeviceList;
             _deviceComboBox.SelectionChanged += OnDeviceComboBox_SelectionChanged;
             BLE.StateChanged += BLE_StateChanged;
         }
+
+        async void OnComCheckButton_Click(object sender, RoutedEventArgs e)
+            => await SendTextAsync("$9100*");
 
         void OnStreamCharactertistic_ValueUpdated(object sender, Plugin.BLE.Abstractions.EventArgs.CharacteristicUpdatedEventArgs e)
         {
@@ -79,15 +83,20 @@ namespace CraneWrench
         }
 
 
+
+
         async void OnSendButton_Click(object sender, RoutedEventArgs e)
+            => await SendTextAsync(_inputTextBox.Text);
+
+        async Task SendTextAsync(string text)
         {
-            if (!string.IsNullOrWhiteSpace(_inputTextBox.Text))
+            if (!string.IsNullOrWhiteSpace(text))
             {
-                var bytes = Encoding.ASCII.GetBytes(_inputTextBox.Text);
+                var bytes = Encoding.ASCII.GetBytes(text);
                 var checkSum = bytes.Aggregate(0, (p, v) => p ^ v);
                 var checkSumText = checkSum.ToString("X2");
 
-                var text = $"{_inputTextBox.Text}{checkSumText}";
+                text = $"{text}{checkSumText}";
                 var payload = Encoding.ASCII.GetBytes(text + "\r");
                 //var payloadAsHexText = new System.Runtime.Remoting.Metadata.W3cXsd2001.SoapHexBinary(payload).ToString();
                 var payloadAsHexText = string.Join(' ', payload.Select(x => x.ToString("X2")));
@@ -107,6 +116,8 @@ namespace CraneWrench
 
             }
         }
+
+
 
         string ParseResponse(byte[] bytes)
         {
@@ -141,7 +152,7 @@ namespace CraneWrench
                 return;
 
             _connecting = true;
-            _sendButton.IsEnabled = _connectButton.IsEnabled = _deviceComboBox.SelectedItem is IDevice && !_connecting;
+            _sendButton.IsEnabled = _comCheckButton.IsEnabled = _connectButton.IsEnabled = _deviceComboBox.SelectedItem is IDevice && !_connecting;
 
             var popup = await P42.Uno.Controls.BusyPopup.CreateAsync("CONNECTING ...");
             try
@@ -180,7 +191,7 @@ namespace CraneWrench
             await popup.PopAsync();
 
             _connecting = false;
-            _sendButton.IsEnabled = _connectButton.IsEnabled = _deviceComboBox.SelectedItem is IDevice && !_connecting;
+            _sendButton.IsEnabled = _connectButton.IsEnabled = _comCheckButton.IsEnabled = _deviceComboBox.SelectedItem is IDevice && !_connecting;
         }
 
         async void OnScanButton_Click(object sender, RoutedEventArgs e)

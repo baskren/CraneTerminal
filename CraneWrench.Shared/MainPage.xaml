@@ -61,19 +61,28 @@
                 Margin="10,3"
                 Grid.Row="2">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
                 <Grid.Children>
+                    <Button
+                        x:Name="_comCheckButton"
+                        Content="ComCheck"
+                        Grid.Column="0"
+                        IsEnabled="False"
+                        HorizontalAlignment="Left"
+                        />
                     <TextBox
                         x:Name="_inputTextBox"
+                        Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         />
                     <Button
                         x:Name="_sendButton"
                         Content="SEND"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         IsEnabled="False"
                         HorizontalAlignment="Right"
                         />
