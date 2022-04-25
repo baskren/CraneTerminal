@@ -13,6 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition x:Name="Row_Title" Height="80"/>
             <RowDefinition x:Name="Row_Connection" Height="auto"/>
+            <RowDefinition x:Name="Row_ShortCuts" Height="50"/>
             <RowDefinition x:Name="Row_Input" Height="50"/>
             <RowDefinition x:Name="Row_Session" Height="*"/>
         </Grid.RowDefinitions>
@@ -54,45 +55,98 @@
                         IsEnabled="False"
                         HorizontalAlignment="Right"
                         Content="CONNECT" />
-                </Grid.Children>
+                        <Button
+                        x:Name="_disconnectButton"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Visibility="Collapsed"
+                        HorizontalAlignment="Right"
+                        Content="DISCONNECT" />
+                    </Grid.Children>
             </Grid>
             <Rectangle Fill="Gray" Margin="10,0" Grid.Row="1" VerticalAlignment="Bottom"/>
-            <Grid
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="5"
                 Margin="10,3"
                 Grid.Row="2">
+                <StackPanel.Children>
+                    <Button
+                        x:Name="_comCheckButton"
+                        Content="Com Check"
+                        IsEnabled="False"
+                        HorizontalAlignment="Left"
+                        />
+                    <Button
+                        x:Name="_getTransducerPropertiesButton"
+                        Content="Trans Props"
+                        IsEnabled="False"
+                        HorizontalAlignment="Left"
+                        />
+                    <Button
+                        x:Name="_batteryStatusButton"
+                        Content="Battery Status"
+                        IsEnabled="False"
+                        HorizontalAlignment="Left"
+                        />
+
+                    <Button
+                        x:Name="_batchJobButton"
+                        Content="Batch Job"
+                        IsEnabled="False"
+                        />
+                    <Button
+                        x:Name="_remainingReadingsButton"
+                        Content="Remaining"
+                        IsEnabled="False"
+                        HorizontalAlignment="Left"
+                        />
+
+                    <Button
+                        x:Name="_getReadingButton"
+                        Content="Get Reading"
+                        IsEnabled="False"
+                        HorizontalAlignment="Left"
+                        />
+
+                    <Button
+                        x:Name="_eraseBatchJobButton"
+                        Content="Erase Batch Job"
+                        IsEnabled="False"
+                        />
+
+
+                    </StackPanel.Children>
+            </StackPanel>
+            <Rectangle Fill="Gray" Margin="10,0" Grid.Row="2" VerticalAlignment="Bottom"/>
+            <Grid
+                Margin="10,3"
+                Grid.Row="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
                 <Grid.Children>
-                    <Button
-                        x:Name="_comCheckButton"
-                        Content="ComCheck"
-                        Grid.Column="0"
-                        IsEnabled="False"
-                        HorizontalAlignment="Left"
-                        />
                     <TextBox
                         x:Name="_inputTextBox"
-                        Grid.Column="1"
+                        Grid.Column="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         />
                     <Button
                         x:Name="_sendButton"
                         Content="SEND"
-                        Grid.Column="2"
+                        Grid.Column="1"
                         IsEnabled="False"
                         HorizontalAlignment="Right"
                         />
                 </Grid.Children>
             </Grid>
-            <Rectangle Fill="Gray" Margin="10,0" Grid.Row="2" VerticalAlignment="Bottom"/>
+            <Rectangle Fill="Gray" Margin="10,0" Grid.Row="3" VerticalAlignment="Bottom"/>
             <Grid
                 x:Name="_dataGrid"
                 Margin="10,3"
-                Grid.Row="3"
+                Grid.Row="4"
                 >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

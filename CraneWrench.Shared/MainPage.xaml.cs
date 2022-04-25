@@ -44,14 +44,46 @@ namespace CraneWrench
 
             _scanButton.Click += OnScanButton_Click;
             _connectButton.Click += OnConnectButton_Click;
+            _disconnectButton.Click += OnDisconnectButton_Click;
             _sendButton.Click += OnSendButton_Click;
             _comCheckButton.Click += OnComCheckButton_Click;
+            _getTransducerPropertiesButton.Click += OnTransPropsButton_Click;
+            _batteryStatusButton.Click += OnBatteryStatusButton_Click;
+            _getReadingButton.Click += OnGetReadingButton_Click;
+            _remainingReadingsButton.Click += OnRemainingReadingsButton_Click;
+            _batchJobButton.Click += OnBatchJobButton_Click;
+            _eraseBatchJobButton.Click += OnEraseBatchJobButton_Click;
+
             Adapter.DeviceDiscovered += OnAdapter_DeviceDiscovered;
             Adapter.ScanTimeout = 5000;
             _deviceComboBox.ItemsSource = DeviceList;
             _deviceComboBox.SelectionChanged += OnDeviceComboBox_SelectionChanged;
             BLE.StateChanged += BLE_StateChanged;
         }
+
+        private async void OnEraseBatchJobButton_Click(object sender, RoutedEventArgs e)
+            => await SendTextAsync("$9206*");
+
+        async void OnBatchJobButton_Click(object sender, RoutedEventArgs e)
+            => await SendTextAsync("$9204,01,C8,1,1,0,0,0472,471C,5000,00E4,0064,0384,5000*");
+
+        async void OnRemainingReadingsButton_Click(object sender, RoutedEventArgs e)
+            => await SendTextAsync("$9224*");
+
+        async void OnGetReadingButton_Click(object sender, RoutedEventArgs e)
+            => await SendTextAsync("$9200*");
+
+
+        void UpdateButtons()
+        {
+            _eraseBatchJobButton.IsEnabled = _batchJobButton.IsEnabled = _getReadingButton.IsEnabled = _remainingReadingsButton.IsEnabled = _sendButton.IsEnabled = _connectButton.IsEnabled = _comCheckButton.IsEnabled = _getTransducerPropertiesButton.IsEnabled = _batteryStatusButton.IsEnabled = _deviceComboBox.SelectedItem is IDevice && !_connecting && !_disconnecting;
+        }
+
+        async void OnBatteryStatusButton_Click(object sender, RoutedEventArgs e)
+            => await SendTextAsync("$9150*");
+
+        async void OnTransPropsButton_Click(object sender, RoutedEventArgs e)
+            => await SendTextAsync("$9120*");
 
         async void OnComCheckButton_Click(object sender, RoutedEventArgs e)
             => await SendTextAsync("$9100*");
@@ -145,14 +177,55 @@ namespace CraneWrench
         }
 
 
+        bool _disconnecting;
+        async void OnDisconnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_disconnecting)
+                return;
+
+            _disconnecting = true;
+
+            var popup = await P42.Uno.Controls.BusyPopup.CreateAsync("DISCONNECTING ...");
+
+            try
+            {
+                if (StreamCharactertistic != null)
+                {
+                    StreamCharactertistic.ValueUpdated -= OnStreamCharactertistic_ValueUpdated;
+                    await StreamCharactertistic.StopUpdatesAsync();
+                    System.Diagnostics.Debug.WriteLine($"MainPage.OnDisonnectButton_Click: UNSUBSCRIBED TO SERVICE:CHARACTERISTIC: [{StreamCharactertistic.Service.Id}] : [{StreamCharactertistic.Id}]");
+                }
+
+                if (_deviceComboBox.SelectedItem is IDevice device)
+                {
+                    await Adapter.DisconnectDeviceAsync(device);
+                    _connectButton.Visibility = Visibility.Visible;
+                    _disconnectButton.Visibility = Visibility.Collapsed;
+                }
+            }
+            catch (Exception ex)
+            {
+                _bleState.Text = "Could not disconnect to device";
+                System.Diagnostics.Debug.WriteLine($"MainPage.OnDisconnectButton_Click: COULD NOT DISCONNECT [{ex.Message}]");
+
+            }
+
+            await popup.PopAsync();
+
+            _disconnecting = false;
+
+            UpdateButtons();
+
+        }
+
         bool _connecting;
         async void OnConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_connecting || !(_deviceComboBox.SelectedItem is IDevice))
+            if (_connecting || _disconnecting || !(_deviceComboBox.SelectedItem is IDevice))
                 return;
 
             _connecting = true;
-            _sendButton.IsEnabled = _comCheckButton.IsEnabled = _connectButton.IsEnabled = _deviceComboBox.SelectedItem is IDevice && !_connecting;
+            UpdateButtons();
 
             var popup = await P42.Uno.Controls.BusyPopup.CreateAsync("CONNECTING ...");
             try
@@ -171,7 +244,9 @@ namespace CraneWrench
                         System.Diagnostics.Debug.WriteLine($"MainPage.OnConnectButton_Click: SUBSCRIBED TO SERVICE:CHARACTERISTIC: [{StreamCharactertistic.Service.Id}] : [{StreamCharactertistic.Id}]");
                     }
 
-                    _connectButton.IsEnabled = false;
+                    _connectButton.Visibility = Visibility.Collapsed;
+                    _disconnectButton.Visibility = Visibility.Visible;
+
                     _scanButton.IsEnabled = false;
                 }
                 else
@@ -191,7 +266,8 @@ namespace CraneWrench
             await popup.PopAsync();
 
             _connecting = false;
-            _sendButton.IsEnabled = _connectButton.IsEnabled = _comCheckButton.IsEnabled = _deviceComboBox.SelectedItem is IDevice && !_connecting;
+            UpdateButtons();
+
         }
 
         async void OnScanButton_Click(object sender, RoutedEventArgs e)
