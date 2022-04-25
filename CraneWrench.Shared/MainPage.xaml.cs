@@ -86,7 +86,8 @@ namespace CraneWrench
 
                 var text = $"{_inputTextBox.Text}{checkSumText}";
                 var payload = Encoding.ASCII.GetBytes(text + "\r");
-                var payloadAsHexText = new System.Runtime.Remoting.Metadata.W3cXsd2001.SoapHexBinary(payload).ToString();
+                //var payloadAsHexText = new System.Runtime.Remoting.Metadata.W3cXsd2001.SoapHexBinary(payload).ToString();
+                var payloadAsHexText = string.Join(' ', payload.Select(x => x.ToString("X2")));
 
                 _terminalTextBlock.Text += $"> {text} [{payloadAsHexText}]\n";
 
